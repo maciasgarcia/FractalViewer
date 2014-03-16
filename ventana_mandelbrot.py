@@ -204,7 +204,8 @@ class App(wx.App):
             er = 1
         if (er == 0):
             xg, yg = meshgrid(linspace(self.Xmin, self.Xmax,self.Densidad),
-                              linspace(self.Ymin, self.Ymax, self.Densidad))
+                              linspace(self.Ymax, self.Ymin, self.Densidad))
+                     # Meshgrid desde el maximo al minimo en Y para solucionar problema de margenes incorrectos.
             iters = zeros((self.Densidad, self.Densidad))
             c = xg + 1j*yg # Matriz cuadrada de dens x dens con los distintos valores de c que vamos a evaluar.
 
