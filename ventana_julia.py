@@ -142,7 +142,7 @@ class App(wx.App):
         sizer10.Add(label10, -1, wx.ALL)
 
         self.listacolores = ['Azul/Amarillo/Rojo', 'Blanco y negro', 'Azules', 'Verde/Amarillo/Rojo', 'Hot',
-                             'Rosa']
+                             'Rosa', 'Naranjas']
         self.despcolores = wx.ComboBox(panelbut, -1, choices=self.listacolores, style=wx.CB_READONLY,
                                        value=self.listacolores[0])
         sizer10.Add(self.despcolores, -1, wx.ALL)
@@ -238,11 +238,7 @@ class App(wx.App):
             self.ax.cla()
 
             self.paleta = self.despcolores.GetValue()
-            self.k = 1
-            if self.invertpaleta.GetValue():
-                self.k = 0
-            else:
-                self.k = 1
+            self.k = 1 - self.invertpaleta.IsChecked()
 
             if self.paleta == self.listacolores[0]:
                 self.ax.imshow(self.k + (-1)**self.k * log(iters), cmap=cm.RdYlBu,
@@ -261,6 +257,9 @@ class App(wx.App):
                                extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
             elif self.paleta == self.listacolores[5]:
                 self.ax.imshow(self.k + (-1)**self.k * log(iters), cmap=cm.PuRd,
+                               extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
+            elif self.paleta == self.listacolores[6]:
+                self.ax.imshow(self.k + (-1)**self.k * log(iters), cmap=cm.YlOrBr,
                                extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
 
             # cmap permite cambiar la paleta de colores. http://wiki.scipy.org/Cookbook/Matplotlib/Show_colormaps
@@ -296,6 +295,8 @@ y distintos ajustes."""
         wx.AboutBox(inform)
 
 
-
-app = App(0)
-app.MainLoop()
+def main():
+    app = App(0)
+    app.MainLoop()
+if __name__ == '__main__':
+    main()
