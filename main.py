@@ -6,7 +6,6 @@ import ventana_mandelbrot
 class MainWindow(wx.Frame):
     def __init__(self, parent, title):
         wx.Frame.__init__(self, parent, title = title, size=(800,600))
-        #panelbut = wx.Panel(parent, -1)
         self.sizer = wx.BoxSizer(wx.VERTICAL)
         #Texto Principal
         textcontent = u"""Elija el programa que quiere ejecutar"""
@@ -34,27 +33,27 @@ class MainWindow(wx.Frame):
         sizerMand.Add(butMand, -1, wx.TOP | wx.CENTER)
         sizerbut.Add(sizerMand, -1, wx.TOP | wx.CENTER)
 
-
-
-
-
         #Eventos para los botones
         self.Bind(wx.EVT_BUTTON, self.onButJulia, butJulia)
         self.Bind(wx.EVT_BUTTON, self.onButMand, butMand)
+
         #Layout sizers
-        self.SetSizer(self.sizer) #Indica al frame qué sizer utilizar
+        self.SetSizer(self.sizer)
         self.SetAutoLayout(1)
         self.sizer.Fit(self)
 
-        self.Show(True) #Con esta línea decimos que se muestre la ventana.
-        #Definición de funciones
+        self.Show(True)
+
+    #Definición de funciones
     def onButJulia(self, event):
         ventana_julia.main()
 
     def onButMand(self, event):
         ventana_mandelbrot.main()
 
+
 if __name__ == '__main__':
     app = wx.App(False)
     frame = MainWindow(None, "Fractales")
     app.MainLoop()
+
