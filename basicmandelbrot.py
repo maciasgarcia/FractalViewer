@@ -17,7 +17,8 @@ def funcmand(x, c):
 
 # Linspace devuelve un array con números en el intervalo dado separados uniformemente.
 # Meshgrid devuelve matrices coordenadas dados dos vectores. En nuestro caso, contienen partes reales e imaginarias.
-xg, yg = meshgrid(linspace(xmin, xmax, dens), linspace(ymin, ymax, dens))
+xg, yg = meshgrid(linspace(xmin, xmax, dens), linspace(ymax, ymin, dens))
+        # Colocando el segundo intervalo al revés evitamos las imágenes volteadas
 iters = zeros((dens, dens))
 
 c = xg + 1j*yg # Matriz cuadrada de dens x dens con los distintos valores de c que vamos a evaluar.
@@ -28,6 +29,6 @@ for n in xrange(maxiter):
     z[indices] = funcmand(z[indices], c[indices]) # Aplicamos la función que hemos definido.
     iters[indices] = n
 
-imshow(1 - log(iters), cmap = cm.Accent, extent = (xmin, xmax, ymin, ymax))
+imshow(1 - log(iters), cmap = cm.PuRd, extent = (xmin, xmax, ymin, ymax))
 # cmap permite cambiar la paleta de colores. Paletas aquí: http://wiki.scipy.org/Cookbook/Matplotlib/Show_colormaps
 show()
