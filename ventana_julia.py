@@ -153,6 +153,19 @@ class App(wx.App):
         sizer11.Add(self.invertpaleta, -1, wx.ALL)
         sizerbut.Add(sizer11, -1, wx.TOP | wx.CENTER)
 
+        sizer12 = wx.BoxSizer(wx.HORIZONTAL)
+        label12 = wx.StaticText(panelbut, -1, u'Para ampliar el conjunto hacer click derecho.')
+        sizer12.Add(label12, -1, wx.ALL | wx.CENTER)
+        sizerbut.Add(sizer12, -1, wx.TOP | wx.CENTER)
+
+        sizer12 = wx.BoxSizer(wx.HORIZONTAL)
+        label12 = wx.StaticText(panelbut, -1, u'  Magnificación:')
+        sizer12.Add(label12, -1, wx.ALL)
+
+        self.caja_zoom = wx.TextCtrl(panelbut, -1, value='2', size=(-1,-1))
+        sizer12.Add(self.caja_zoom, -1, wx.ALL)
+        sizerbut.Add(sizer12, -1, wx.TOP | wx.CENTER)
+
         # Espacio en blanco
         sizerws = wx.BoxSizer(wx.HORIZONTAL)
         whitespace = wx.StaticText(panelbut, -1, '')
