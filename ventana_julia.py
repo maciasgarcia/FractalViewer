@@ -172,11 +172,32 @@ class App(wx.App):
         sizerbut.Add(botabout, -1, wx.TOP | wx.CENTER)
         self.Bind(wx.EVT_BUTTON, self.about, botabout)
 
+        cid = self.fig.canvas.mpl_connect('button_press_event', self.onclick)
         
         panelbut.SetSizer(sizerbut)
         
         sizer.Add(panelbut, 0, wx.TOP)
         parent.SetSizer(sizer)
+
+    def onclick(self, event):
+        bt, xc, yc = (event.button, event.xdata, event.ydata)
+        zoom = float(self.caja_zoom.GetValue())
+        if is_number(zoom) and float(zoom)!= 0:
+            xdist = (float(self.caja_Xmax.GetValue()) - float(self.caja_Xmin.GetValue()))/(2*zoom)
+            ydist = (float(self.caja_Ymax.GetValue()) - float(self.caja_Ymin.GetValue()))/(2*zoom)
+        else:
+            dlg = wx.MessageDialog(self.frame, u"Error en los parámetros", "Error!", wx.OK | wx.ICON_WARNING)
+            dlg.ShowModal()
+            dlg.Destroy()
+
+        if bt == 3:
+            self.caja_Xmin.SetValue(str(xc-xdist))
+            self.caja_Xmax.SetValue(str(xc+xdist))
+            self.caja_Ymin.SetValue(str(yc-ydist))
+            self.caja_Ymax.SetValue(str(yc+ydist))
+            self.ejecutar(self)
+
+
 
     def ejecutar(self, event):
         er = 0
@@ -279,6 +300,8 @@ class App(wx.App):
         self.despcolores.SetValue(self.listacolores[0])
         self.canvas.draw()
         self.caja_maxiter.SetFocus()
+
+
 
 
     def about(self, event):
