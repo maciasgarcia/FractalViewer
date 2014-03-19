@@ -2,6 +2,7 @@
 import wx
 import ventana_julia
 import ventana_mandelbrot
+import fractales
 
 class MainWindow(wx.Frame):
     def __init__(self, parent, title):
@@ -33,9 +34,15 @@ class MainWindow(wx.Frame):
         sizerMand.Add(butMand, -1, wx.TOP | wx.CENTER)
         sizerbut.Add(sizerMand, -1, wx.TOP | wx.CENTER)
 
+        imgConnect = wx.Image('iconoconnec.png', wx.BITMAP_TYPE_PNG).ConvertToBitmap()
+        butConnect = wx.BitmapButton(self, -1, imgConnect,
+            pos=(10, 20), size = (imgConnect.GetWidth()+5, imgConnect.GetHeight()+5))
+        sizerbut.Add(butConnect, -1, wx.TOP | wx.EXPAND)
+
         #Eventos para los botones
         self.Bind(wx.EVT_BUTTON, self.onButJulia, butJulia)
         self.Bind(wx.EVT_BUTTON, self.onButMand, butMand)
+        self.Bind(wx.EVT_BUTTON, self.onConnected, butConnect)
 
         #Layout sizers
         self.SetSizer(self.sizer)
@@ -50,6 +57,9 @@ class MainWindow(wx.Frame):
 
     def onButMand(self, event):
         ventana_mandelbrot.main()
+
+    def onConnected(self, event):
+        fractales.main()
 
 
 if __name__ == '__main__':
