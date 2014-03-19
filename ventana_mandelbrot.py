@@ -35,10 +35,11 @@ class App(wx.App):
         self.crear_gui_masfigura(self.frame)
         self.frame.Show()        
         self.ax = self.fig.add_subplot(111, navigate=True)
+        self.ejecutar(self)
         return True
 
     def crear_gui_masfigura(self, parent):
-        self.fig = Figure(figsize=(5,5), dpi=100)
+        self.fig = Figure(figsize=(5,5), dpi=100, facecolor=(0.3, 0.25, 0.3))
         sizer = wx.BoxSizer(wx.HORIZONTAL)
         
         paneldraw = wx.Panel(parent,-1)
@@ -58,11 +59,20 @@ class App(wx.App):
         # Panel y sizers para parametros y botones
         panelbut = wx.Panel(parent, -1)
         sizerbut = wx.BoxSizer(wx.VERTICAL)
+        panelbut.SetBackgroundColour(wx.Colour(255, 255, 255))
 
         sizer0 = wx.BoxSizer(wx.HORIZONTAL)
         label0 = wx.StaticText(panelbut, -1, u'Parámetros')
+        label0.Wrap(-1)
+        label0.SetFont( wx.Font( 11, 74, 93, 92, True, "Tahoma" ))
         sizer0.Add(label0, -1, wx.ALL | wx.CENTER)
         sizerbut.Add(sizer0, -1, wx.TOP | wx.CENTER)
+
+        # Espacio en blanco
+        sizerws = wx.BoxSizer(wx.HORIZONTAL)
+        whitespace = wx.StaticText(panelbut, -1, '')
+        sizerws.Add(whitespace, -1, wx.ALL)
+        sizerbut.Add(sizerws, -1, wx.TOP | wx.CENTER)
 
         # Parametros
         sizer1 = wx.BoxSizer(wx.HORIZONTAL)
@@ -121,6 +131,12 @@ class App(wx.App):
         sizer7.Add(self.caja_fun, -1, wx.ALL)
         sizerbut.Add(sizer7, -1, wx.TOP | wx.CENTER)
 
+        # Espacio en blanco
+        sizerws = wx.BoxSizer(wx.HORIZONTAL)
+        whitespace = wx.StaticText(panelbut, -1, '')
+        sizerws.Add(whitespace, -1, wx.ALL)
+        sizerbut.Add(sizerws, -1, wx.TOP | wx.CENTER)
+
         sizer8 = wx.BoxSizer(wx.HORIZONTAL)
         label8 = wx.StaticText(panelbut, -1, '  Paleta de colores:')
         sizer8.Add(label8, -1, wx.ALL)
@@ -158,15 +174,15 @@ class App(wx.App):
 
         # Botones
         botejecutar = wx.Button(panelbut, label='Ejecutar')
-        sizerbut.Add(botejecutar, -1, wx.TOP | wx.CENTER)
+        sizerbut.Add(botejecutar, -1, wx.TOP | wx.EXPAND)
         self.Bind(wx.EVT_BUTTON, self.ejecutar, botejecutar)
 
         botrestaurar=wx.Button(panelbut,label='Restaurar')
-        sizerbut.Add(botrestaurar, -1, wx.TOP | wx.CENTER)
+        sizerbut.Add(botrestaurar, -1, wx.TOP | wx.EXPAND)
         self.Bind(wx.EVT_BUTTON,self.restaurar,botrestaurar)
 
         botabout = wx.Button(panelbut, label='Acerca de')
-        sizerbut.Add(botabout, -1, wx.TOP | wx.CENTER)
+        sizerbut.Add(botabout, -1, wx.TOP | wx.EXPAND)
         self.Bind(wx.EVT_BUTTON, self.about, botabout)
         
         cid = self.fig.canvas.mpl_connect('button_press_event', self.onclick)
