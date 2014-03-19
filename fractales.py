@@ -24,19 +24,23 @@ def is_number(s):
         return False
 
 
-def julia(x, c):
+def cuadratica(x, c):
     """Funcion de la cual vamos a representar su conjunto de Julia"""
     return x**2 + c
 
+def cubica(x, c):
+    """Funcion de la cual vamos a representar su conjunto de Julia"""
+    return x**3 + c
 
 class App(wx.App):
     def OnInit(self):
-        self.frame = wx.Frame(None, -1, title=u'Fractales', size=(850, 550))
+        self.frame = wx.Frame(None, -1, title=u'Relación entre los conjuntos', size=(850, 550))
         self.crear_gui_masfigura(self.frame)
         self.frame.Show()
         self.ax2 = self.fig.add_subplot(211)
         self.ax = self.fig.add_subplot(212)
         self.ejecutarmand(self)
+        self.ejecutarjul(self)
         return True
 
 
@@ -65,7 +69,7 @@ class App(wx.App):
 
         sizer0 = wx.BoxSizer(wx.HORIZONTAL)
         label0 = wx.StaticText(panelbut, -1, u'Parámetros')
-        label0.Wrap( -1 )
+        label0.Wrap(-1)
         label0.SetFont( wx.Font( 11, 74, 93, 92, True, "Tahoma" ))
         sizer0.Add(label0, -1, wx.ALL | wx.CENTER)
         sizerbut.Add(sizer0, -1, wx.TOP | wx.CENTER)
@@ -129,7 +133,7 @@ class App(wx.App):
         label7 = wx.StaticText(panelbut, -1, '  Funcion:')
         sizer7.Add(label7, -1, wx.ALL)
 
-        self.caja_fun = wx.TextCtrl(panelbut, -1, value='julia', size=(-1, -1))
+        self.caja_fun = wx.TextCtrl(panelbut, -1, value='cuadratica', size=(-1, -1))
         sizer7.Add(self.caja_fun, -1, wx.ALL)
         sizerbut.Add(sizer7, -1, wx.TOP | wx.CENTER)
 
@@ -245,7 +249,7 @@ class App(wx.App):
         self.Ymax = 1.5
         self.Densidad = 500
         self.maxiter = 100
-        self.fun = 'julia'
+        self.fun = self.caja_fun.GetValue()
 
 
         xg, yg = meshgrid(linspace(self.Xmin, self.Xmax,self.Densidad),
@@ -403,12 +407,12 @@ class App(wx.App):
 
 
     def about(self, event):
-        descripcion = u"""Este programa permite la visualización de los distintos conjuntos de Julia asociados a un
-número complejo c, pudiendo además definirse distintas funciones para visualizar J(f) y usarse varias paletas de colores
-y distintos ajustes."""
+        descripcion = u"""Este programa permite ver la correspondencia entre los puntos pertenecientes al conjunto de
+Mandelbrot y su respectivo conjunto de Julia asociado. En él se observa que si un punto pertenece al conjunto,
+entonces el conjunto de Julia es conexo."""
         inform = wx.AboutDialogInfo()
-        inform.SetIcon(wx.Icon('iconojul.png', wx.BITMAP_TYPE_PNG))
-        inform.SetName('Conjuntos de Julia')
+        inform.SetIcon(wx.Icon('iconoconnec.png', wx.BITMAP_TYPE_PNG))
+        inform.SetName(u'Relación entre los conjuntos')
         inform.SetDescription(descripcion)
         inform.SetCopyright(u'Juan Antonio Macías - Marina Molina - Ana López')
         inform.SetWebSite('www.github.com/JuanMtg/JuliaSets')
