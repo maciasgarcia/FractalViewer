@@ -176,24 +176,12 @@ class App(wx.App):
         sizerbut.Add(sizer11, -1, wx.TOP | wx.CENTER)
 
 
-        # sizer12 = wx.BoxSizer(wx.HORIZONTAL)
-        # label12 = wx.StaticText(panelbut, -1, u'Para ampliar el conjunto hacer click derecho.')
-        # sizer12.Add(label12, -1, wx.ALL | wx.CENTER)
-        # sizerbut.Add(sizer12, -1, wx.TOP | wx.CENTER)
-        #
-        # sizer13 = wx.BoxSizer(wx.HORIZONTAL)
-        # label13 = wx.StaticText(panelbut, -1, u'  Magnificación:')
-        # sizer13.Add(label13, -1, wx.ALL)
-        #
-        # self.caja_zoom = wx.TextCtrl(panelbut, -1, value='2', size=(-1,-1))
-        # sizer13.Add(self.caja_zoom, -1, wx.ALL)
-        # sizerbut.Add(sizer13, -1, wx.TOP | wx.CENTER)
-
-        # Espacio en blanco
-        sizerws = wx.BoxSizer(wx.HORIZONTAL)
-        whitespace = wx.StaticText(panelbut, -1, '')
-        sizerws.Add(whitespace, -1, wx.ALL)
-        sizerbut.Add(sizerws, -1, wx.TOP | wx.CENTER)
+        sizer12 = wx.BoxSizer(wx.VERTICAL)
+        label12 = wx.StaticText(panelbut, -1, u' Haga click derecho en el conjunto de Mandelbrot')
+        label13 = wx.StaticText(panelbut, -1, u' para ver el conjunto de Julia asociado a dicho punto. ')
+        sizer12.Add(label12, -1, wx.ALL | wx.CENTER)
+        sizer12.Add(label13, -1, wx.ALL | wx.CENTER)
+        sizerbut.Add(sizer12, -1, wx.TOP | wx.CENTER)
 
         # Botones
         botejecutar = wx.Button(panelbut, label='Ejecutar')
@@ -222,26 +210,16 @@ class App(wx.App):
         panelbut.SetSizer(sizerbut)
 
         sizer.Add(panelbut, 0, wx.TOP)
-        cid = self.fig.canvas.mpl_connect('button_press_event', self.onclick)
+        self.fig.canvas.mpl_connect('button_press_event', self.onclick)
         parent.SetSizer(sizer)
 
 
     def onclick(self, event):
         bt, xc, yc = (event.button, event.xdata, event.ydata)
-        # zoom = float(self.caja_zoom.GetValue())
-        # if is_number(zoom) and float(zoom)!= 0:
-        #     xdist = (float(self.caja_Xmax.GetValue()) - float(self.caja_Xmin.GetValue()))/(2*zoom)
-        #     ydist = (float(self.caja_Ymax.GetValue()) - float(self.caja_Ymin.GetValue()))/(2*zoom)
-        # else:
-        #     dlg = wx.MessageDialog(self.frame, u"Error en los parámetros", "Error!", wx.OK | wx.ICON_WARNING)
-        #     dlg.ShowModal()
-        #     dlg.Destroy()
-
         if bt == 3:
             self.caja_Rec.SetValue(str(xc))
             self.caja_Imc.SetValue(str(yc))
             self.ejecutarjul(self)
-
     def ejecutarmand(self, event):
         self.Xmin = -2.5
         self.Xmax = 1.5

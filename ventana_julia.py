@@ -220,10 +220,10 @@ class App(wx.App):
             dlg.Destroy()
 
         if bt == 3:
-            self.caja_Xmin.SetValue(str(xc-xdist))
-            self.caja_Xmax.SetValue(str(xc+xdist))
-            self.caja_Ymin.SetValue(str(yc-ydist))
-            self.caja_Ymax.SetValue(str(yc+ydist))
+            self.caja_Xmin.SetValue(str(xc - xdist))
+            self.caja_Xmax.SetValue(str(xc + xdist))
+            self.caja_Ymin.SetValue(str(yc - ydist))
+            self.caja_Ymax.SetValue(str(yc + ydist))
             self.ejecutar(self)
 
 

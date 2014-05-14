@@ -28,6 +28,9 @@ def mandelbrot(x, c):
     """Funcion de la cual vamos a representar su conjunto de Mandelbrot"""
     return x**2 + c
 
+def mandcubo(x,c):
+    return x**17 + c
+
 
 class App(wx.App):
     def OnInit(self):
@@ -203,10 +206,10 @@ class App(wx.App):
             dlg.ShowModal()
             dlg.Destroy()
         if bt == 3:
-            self.caja_Xmin.SetValue(str(xc-xdist))
-            self.caja_Xmax.SetValue(str(xc+xdist))
-            self.caja_Ymin.SetValue(str(yc-ydist))
-            self.caja_Ymax.SetValue(str(yc+ydist))
+            self.caja_Xmin.SetValue(str(xc - xdist))
+            self.caja_Xmax.SetValue(str(xc + xdist))
+            self.caja_Ymin.SetValue(str(yc - ydist))
+            self.caja_Ymax.SetValue(str(yc + ydist))
             self.ejecutar(self)
         
     def ejecutar(self,event):
