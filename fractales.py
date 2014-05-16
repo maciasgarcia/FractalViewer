@@ -32,7 +32,25 @@ def cubica(x, c):
     """Funcion de la cual vamos a representar su conjunto de Julia"""
     return x**3 + c
 
+def enmandelbrot(c, iter):
+    i = 0
+    newc = c
+    while i <= iter:
+        if abs(newc) <= 2:
+            newc = cuadratica(newc, c)
+            i += 1
+        else:
+            return False
+    return True
+
 class App(wx.App):
+    XMmin = -2.5
+    XMmax = 1.5
+    YMmin = -1.5
+    YMmax = 1.5
+    MDensidad = 500
+    Mmaxiter = 100
+
     def OnInit(self):
         self.frame = wx.Frame(None, -1, title=u'Relación entre los conjuntos', size=(850, 550))
         self.crear_gui_masfigura(self.frame)
@@ -153,6 +171,13 @@ class App(wx.App):
         sizer9.Add(self.caja_Imc, -1, wx.ALL)
         sizerbut.Add(sizer9, -1, wx.TOP | wx.CENTER)
 
+        sizermsg = wx.BoxSizer(wx.VERTICAL)
+        self.labelmsg1 = wx.StaticText(panelbut, -1, u'El punto NO está en el conjunto de Mandelbrot.')
+        self.labelmsg2 = wx.StaticText(panelbut, -1, u'Entonces el conjunto de Julia asociado NO es conexo.')
+        sizermsg.Add(self.labelmsg1, -1, wx.ALL | wx.CENTER)
+        sizermsg.Add(self.labelmsg2, -1, wx.ALL | wx.CENTER)
+        sizerbut.Add(sizermsg, -1, wx.TOP | wx.CENTER)
+
         # Espacio en blanco
         sizerws = wx.BoxSizer(wx.HORIZONTAL)
         whitespace = wx.StaticText(panelbut, -1, '')
@@ -216,32 +241,42 @@ class App(wx.App):
 
     def onclick(self, event):
         bt, xc, yc = (event.button, event.xdata, event.ydata)
+        iters = int(self.caja_maxiter.GetValue())*2
+        zoom = 2
         if bt == 3:
             self.caja_Rec.SetValue(str(xc))
             self.caja_Imc.SetValue(str(yc))
             self.ejecutarjul(self)
+            if enmandelbrot(xc + yc*1j, iters):
+                self.labelmsg1.SetLabel(u'El punto SÍ está en el conjunto de Mandelbrot.')
+                self.labelmsg2.SetLabel(u'Entonces el conjunto de Julia asociado SÍ es conexo.')
+            else:
+                self.labelmsg1.SetLabel(u'El punto NO está en el conjunto de Mandelbrot.')
+                self.labelmsg2.SetLabel(u'Entonces el conjunto de Julia asociado NO es conexo.')
+
+        if event.dblclick and bt == 1:
+            xdist = (float(self.XMmax) - float(self.XMmin))/(2*zoom)
+            ydist = (float(self.YMmax) - float(self.YMmin))/(2*zoom)
+            self.XMmin = xc - xdist
+            self.XMmax = xc + xdist
+            self.YMmin = yc - ydist
+            self.YMmax = yc + ydist
+            self.ejecutarmand(self)
+
     def ejecutarmand(self, event):
-        self.Xmin = -2.5
-        self.Xmax = 1.5
-        self.Ymin = -1.5
-        self.Ymax = 1.5
-        self.Densidad = 500
-        self.maxiter = 100
-        self.fun = self.caja_fun.GetValue()
-
-
-        xg, yg = meshgrid(linspace(self.Xmin, self.Xmax,self.Densidad),
-                          linspace(self.Ymax, self.Ymin, self.Densidad))
+        self.Mfun = self.caja_fun.GetValue()
+        xg, yg = meshgrid(linspace(self.XMmin, self.XMmax,self.MDensidad),
+                          linspace(self.YMmax, self.YMmin, self.MDensidad))
                 # Meshgrid desde el maximo al minimo en Y para solucionar problema de margenes incorrectos.
 
         #Matrices Mandelbrot
-        itersmand = zeros((self.Densidad, self.Densidad))
+        itersmand = zeros((self.MDensidad, self.MDensidad))
         cmand = xg + 1j*yg # Matriz cuadrada de dens x dens con los distintos valores de c que vamos a evaluar.
 
         zm = zeros_like(cmand) # Creamos una matriz de ceros del mismo tamano que c
-        for n in xrange(self.maxiter):
+        for n in xrange(self.Mmaxiter):
             indices = (abs(zm) <= 10)  # Conjunto de indices tal que |z| <= 10 (10 para mejor dibujado, 2 es sufic)
-            zm[indices] = feval(self.fun, zm[indices], cmand[indices]) # Aplicamos la funcion que hemos definido
+            zm[indices] = feval(self.Mfun, zm[indices], cmand[indices]) # Aplicamos la funcion que hemos definido
             itersmand[indices] = n
         self.ax2.cla()
 
@@ -250,25 +285,25 @@ class App(wx.App):
 
         if self.paleta == self.listacolores[0]:
             self.ax2.imshow(self.k + (-1)**self.k * log(itersmand), cmap=cm.RdYlBu,
-                           extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
+                           extent=(self.XMmin, self.XMmax, self.YMmin, self.YMmax))
         elif self.paleta == self.listacolores[1]:
             self.ax2.imshow(self.k + (-1)**self.k * log(itersmand), cmap=cm.binary,
-                           extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
+                           extent=(self.XMmin, self.XMmax, self.YMmin, self.YMmax))
         elif self.paleta == self.listacolores[2]:
             self.ax2.imshow(self.k + (-1)**self.k * log(itersmand), cmap=cm.Blues,
-                           extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
+                           extent=(self.XMmin, self.XMmax, self.YMmin, self.YMmax))
         elif self.paleta == self.listacolores[3]:
             self.ax2.imshow(self.k + (-1)**self.k * log(itersmand), cmap=cm.RdYlGn,
-                           extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
+                           extent=(self.XMmin, self.XMmax, self.YMmin, self.YMmax))
         elif self.paleta == self.listacolores[4]:
             self.ax2.imshow(self.k + (-1)**self.k * log(itersmand), cmap=cm.hot,
-                           extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
+                           extent=(self.XMmin, self.XMmax, self.YMmin, self.YMmax))
         elif self.paleta == self.listacolores[5]:
             self.ax2.imshow(self.k + (-1)**self.k * log(itersmand), cmap=cm.PuRd,
-                           extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
+                           extent=(self.XMmin, self.XMmax, self.YMmin, self.YMmax))
         elif self.paleta == self.listacolores[6]:
             self.ax2.imshow(self.k + (-1)**self.k * log(itersmand), cmap=cm.YlOrBr,
-                           extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
+                           extent=(self.XMmin, self.XMmax, self.YMmin, self.YMmax))
 
         # cmap permite cambiar la paleta de colores. http://wiki.scipy.org/Cookbook/Matplotlib/Show_colormaps
         # Para anadir un color nuevo, escribirlo en self.listacolores y colocar otro elif con su corresp. codigo
@@ -370,6 +405,7 @@ class App(wx.App):
 
 
     def restaurar(self, event):
+        # Restauramos los valores en la ventana
         self.caja_maxiter.SetValue('100')
         self.caja_Xmin.SetValue('-2')
         self.caja_Xmax.SetValue('2')
@@ -378,10 +414,19 @@ class App(wx.App):
         self.caja_Densidad.SetValue('500')
         self.caja_Rec.SetValue('-0.4')
         self.caja_Imc.SetValue('0.6')
+        # Restauramos los valores internos de Mandelbrot
+        self.XMmin = -2.5
+        self.XMmax = 1.5
+        self.YMmin = -1.5
+        self.YMmax = 1.5
+        self.MDensidad = 500
+        self.Mmaxiter = 100
+        self.ejecutarmand(self)
         self.invertpaleta.SetValue(False)
         self.despcolores.SetValue(self.listacolores[0])
         self.canvas.draw()
         self.caja_maxiter.SetFocus()
+
 
 
     def about(self, event):
