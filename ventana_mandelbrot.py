@@ -29,7 +29,7 @@ def mandelbrot(x, c):
     return x**2 + c
 
 def mandcubo(x,c):
-    return x**17 + c
+    return x**3 + c
 
 
 class App(wx.App):
