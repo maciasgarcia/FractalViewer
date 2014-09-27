@@ -7,9 +7,10 @@ from fractalutils import *
 
 
 class FractalApp(wx.App):
-    japi = fapi.JuliaApi()
+
 
     def OnInit(self):
+        self.japi = fapi.JuliaApi()
         self.frame = wx.Frame(None, -1, title=u'Conjunto de Julia', size=(850, 550))
         self.initgui(self.frame)
         self.frame.Show()
@@ -70,10 +71,13 @@ class FractalApp(wx.App):
         self.boxfunc = wx.TextCtrl(panelbut, -1, value='quadratic', size=(-1, -1))
         self.boxrec = wx.TextCtrl(panelbut, -1, value='-0.4', size=(-1, -1))
         self.boximc = wx.TextCtrl(panelbut, -1, value='0.6', size=(-1, -1))
-        self.colourlist = ['Azul/Amarillo/Rojo', 'Blanco y negro', 'Azules', 'Verde/Amarillo/Rojo',
-                           'Hot', 'Rosa', 'Naranjas']
-        self.combcolp = wx.ComboBox(panelbut, -1, choices=self.colourlist, style=wx.CB_READONLY,
-                                    value=self.colourlist[0])
+
+        self.colourdict = {'Azul/Amarillo/Rojo' : 'cm.RdYlBu', 'Blanco y negro' : 'cm.binary',
+                           'Azules' : 'cm.Blues', 'Verde/Amarillo/Rojo' : 'cm.RdYlGn',
+                           'Hot' : 'cm.hot', 'Rosa' : 'cm.PuRd', 'Naranjas' : 'cm.YlOrBr'}
+        
+        self.combcolp = wx.ComboBox(panelbut, -1, choices=self.colourdict.keys(), style=wx.CB_READONLY,
+                                    value='Azul/Amarillo/Rojo')
         self.invcolp = wx.CheckBox(panelbut, -1, 'Invertir paleta de colores')
         self.boxmagn = wx.TextCtrl(panelbut, -1, value='2', size=(-1,-1))
         #Buttons
@@ -243,29 +247,11 @@ class FractalApp(wx.App):
             self.ax.cla()
 
             self.paleta = self.combcolp.GetValue()
+            self.colourcode = self.colourdict[self.paleta]
             self.k = 1 - self.invcolp.IsChecked()
 
-            if self.paleta == self.colourlist[0]:
-                self.ax.imshow(self.k + (-1)**self.k * log(iters), cmap=cm.RdYlBu,
-                               extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
-            elif self.paleta == self.colourlist[1]:
-                self.ax.imshow(self.k + (-1)**self.k * log(iters), cmap=cm.binary,
-                               extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
-            elif self.paleta == self.colourlist[2]:
-                self.ax.imshow(self.k + (-1)**self.k * log(iters), cmap=cm.Blues,
-                               extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
-            elif self.paleta == self.colourlist[3]:
-                self.ax.imshow(self.k + (-1)**self.k * log(iters), cmap=cm.RdYlGn,
-                               extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
-            elif self.paleta == self.colourlist[4]:
-                self.ax.imshow(self.k + (-1)**self.k * log(iters), cmap=cm.hot,
-                               extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
-            elif self.paleta == self.colourlist[5]:
-                self.ax.imshow(self.k + (-1)**self.k * log(iters), cmap=cm.PuRd,
-                               extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
-            elif self.paleta == self.colourlist[6]:
-                self.ax.imshow(self.k + (-1)**self.k * log(iters), cmap=cm.YlOrBr,
-                               extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
+            self.ax.imshow(self.k + (-1)**self.k *log(iters), cmap=eval(self.colourcode),
+                           extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
 
             # cmap permite cambiar la paleta de colores. http://wiki.scipy.org/Cookbook/Matplotlib/Show_colormaps
             # Para anadir un color nuevo, escribirlo en self.listacolores y colocar otro elif con su corresp. codigo
@@ -287,7 +273,7 @@ class FractalApp(wx.App):
         self.boxrec.SetValue('-0.4')
         self.boximc.SetValue('0.6')
         self.invcolp.SetValue(False)
-        self.combcolp.SetValue(self.colourlist[0])
+        self.combcolp.SetValue('Azul/Amarillo/Rojo')
         self.canvas.draw()
         self.boxmiter.SetFocus()
         self.execute(self)
