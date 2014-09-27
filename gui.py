@@ -61,12 +61,12 @@ class FractalApp(wx.App):
         labelmagn = wx.StaticText(panelbut, -1, u'  Magnificación:')
 
         #TextCtrls / Comboboxes / Checkboxes
-        self.boxmiter =  wx.TextCtrl(panelbut, -1, value='100',size=(-1, -1))
-        self.boxxmin = wx.TextCtrl(panelbut, -1, value='-2', size=(-1, -1))
-        self.boxxmax = wx.TextCtrl(panelbut, -1, value='2', size=(-1, -1))
-        self.boxymin = wx.TextCtrl(panelbut, -1, value='-1.5', size=(-1, -1))
-        self.boxymax = wx.TextCtrl(panelbut, -1, value='1.5', size=(-1, -1))
-        self.boxdens = wx.TextCtrl(panelbut, -1, value='500', size=(-1, -1))
+        self.boxmiter =  wx.TextCtrl(panelbut, -1, value=str(self.japi.maxiter),size=(-1, -1))
+        self.boxxmin = wx.TextCtrl(panelbut, -1, value=str(self.japi.xmin), size=(-1, -1))
+        self.boxxmax = wx.TextCtrl(panelbut, -1, value=str(self.japi.xmax), size=(-1, -1))
+        self.boxymin = wx.TextCtrl(panelbut, -1, value=str(self.japi.ymin), size=(-1, -1))
+        self.boxymax = wx.TextCtrl(panelbut, -1, value=str(self.japi.ymax), size=(-1, -1))
+        self.boxdens = wx.TextCtrl(panelbut, -1, value=str(self.japi.densidad), size=(-1, -1))
         self.boxfunc = wx.TextCtrl(panelbut, -1, value='quadratic', size=(-1, -1))
         self.boxrec = wx.TextCtrl(panelbut, -1, value='-0.4', size=(-1, -1))
         self.boximc = wx.TextCtrl(panelbut, -1, value='0.6', size=(-1, -1))
