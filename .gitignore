@@ -32,3 +32,5 @@ pip-log.txt
 #Idea
 .idea
 wxtests.py
+dberr
+log
