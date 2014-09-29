@@ -14,11 +14,28 @@ def feval(mf0, *args):
     definidas por el usuario"""
     return eval(mf0)(*args)
 
-def quadratic(self, x, c):
+def numbercheck(numberlist):
+        for numb in numberlist:
+            if not is_number(numb):
+                return False
+        return True
+
+def inmandelbrot(func, c, iterat):
+    i = 0
+    newc = c
+    while i <= iterat:
+        if abs(newc) <= 2:
+            newc = feval(func, newc, c)
+            i += 1
+        else:
+            return False
+    return True
+
+def quadratic(x, c):
     """Quadratic function to represent its julia associated fractal."""
     return x**2 + c
 
-def cubic(self, x, c):
+def cubic(x, c):
     return x**3 + c
 
 if __name__ == '__main__':
