@@ -1,69 +1,33 @@
 # -*- coding: utf-8 -*-
 import wx
-import ventana_julia
-import ventana_mandelbrot
-import fractales
-
-class MainWindow(wx.Frame):
-    def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, title = title, size=(800,600))
-        self.sizer = wx.BoxSizer(wx.VERTICAL)
-        #Texto Principal
-        textcontent = u"""Elija el programa que quiere ejecutar"""
-        sizerText = wx.BoxSizer(wx.HORIZONTAL)
-        text = wx.StaticText(self, -1, textcontent)
-        sizerText.Add(text, -1, wx.ALL | wx.CENTER)
-        self.sizer.Add(sizerText, -1, wx.TOP | wx.CENTER)
-
-        #Botones
-        sizerbut = wx.BoxSizer(wx.HORIZONTAL)
-        self.sizer.Add(sizerbut, -1, wx.TOP | wx.CENTER)
-
-        sizerJulia = wx.BoxSizer(wx.HORIZONTAL)
-        imgJulia = wx.Image('iconojul.png', wx.BITMAP_TYPE_PNG).ConvertToBitmap()
-        butJulia = wx.BitmapButton(self, -1, imgJulia,
-            pos=(10, 20), size = (imgJulia.GetWidth()+5, imgJulia.GetHeight()+5))
-
-        sizerJulia.Add(butJulia, -1, wx.TOP | wx.CENTER)
-        sizerbut.Add(sizerJulia, -1, wx.TOP | wx.CENTER)
-
-        sizerMand = wx.BoxSizer(wx.HORIZONTAL)
-        imgMand = wx.Image('iconomand.png', wx.BITMAP_TYPE_PNG).ConvertToBitmap()
-        butMand = wx.BitmapButton(self, -1, imgMand,
-            pos=(10, 20), size = (imgMand.GetWidth()+5, imgMand.GetHeight()+5))
-        sizerMand.Add(butMand, -1, wx.TOP | wx.CENTER)
-        sizerbut.Add(sizerMand, -1, wx.TOP | wx.CENTER)
-
-        imgConnect = wx.Image('iconoconnec.png', wx.BITMAP_TYPE_PNG).ConvertToBitmap()
-        butConnect = wx.BitmapButton(self, -1, imgConnect,
-            pos=(10, 20), size = (imgConnect.GetWidth()+5, imgConnect.GetHeight()+5))
-        sizerbut.Add(butConnect, -1, wx.TOP | wx.EXPAND)
-
-        #Eventos para los botones
-        self.Bind(wx.EVT_BUTTON, self.onButJulia, butJulia)
-        self.Bind(wx.EVT_BUTTON, self.onButMand, butMand)
-        self.Bind(wx.EVT_BUTTON, self.onConnected, butConnect)
-
-        #Layout sizers
-        self.SetSizer(self.sizer)
-        self.SetAutoLayout(1)
-        self.sizer.Fit(self)
-
-        self.Show(True)
-
-    #Definición de funciones
-    def onButJulia(self, event):
-        ventana_julia.main()
-
-    def onButMand(self, event):
-        ventana_mandelbrot.main()
-
-    def onConnected(self, event):
-        fractales.main()
+from gui import *
 
 
-if __name__ == '__main__':
-    app = wx.App(False)
-    frame = MainWindow(None, "Fractales")
+class MainFrame(wx.Frame):
+    def __init__(self):
+        wx.Frame.__init__(self, None, title="Fractales", size=(1000, 700))
+
+        # Created Panel and Notebook.
+        p = wx.Panel(self)
+        nb = wx.Notebook(p)
+
+        # Defining pages.
+        page1 = MandelbrotPanel(nb)
+        page2 = JuliaPanel(nb)
+        page3 = RelationPanel(nb)
+
+        # Adding pages.
+        nb.AddPage(page1, u"Mandelbrot")
+        nb.AddPage(page2, u"Julia")
+        nb.AddPage(page3, u"Relación")
+
+        # Putting the notebook in a sizer and defining it as the main one.
+        sizer = wx.BoxSizer()
+        sizer.Add(nb, 1, wx.EXPAND)
+        p.SetSizer(sizer)
+
+
+if __name__ == "__main__":
+    app = wx.App()
+    MainFrame().Show()
     app.MainLoop()
-
