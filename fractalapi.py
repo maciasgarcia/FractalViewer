@@ -25,7 +25,7 @@ class JuliaApi():
 
         for n in xrange(self.maxiter):
             indic = (abs(z) <= 10)
-            z[indic] = feval(func, self, z[indic], c)
+            z[indic] = feval(func, z[indic], c)
             iters[indic] = n
 
         return iters
@@ -49,7 +49,7 @@ class MandelbrotApi():
         z = zeros_like(c)
         for n in xrange(self.maxiter):
             indic = (abs(z) <= 10)
-            z[indic] = feval(func, self, z[indic], c[indic])
+            z[indic] = feval(func, z[indic], c[indic])
             iters[indic] = n
 
         return iters
