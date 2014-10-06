@@ -32,11 +32,13 @@ class MainFrame(wx.Frame):
         page1 = MandelbrotPanel(nb)
         page2 = JuliaPanel(nb)
         page3 = RelationPanel(nb)
+        page4 = NewtonPanel(nb)
 
         # Adding pages.
         nb.AddPage(page1, u"Mandelbrot")
         nb.AddPage(page2, u"Julia")
         nb.AddPage(page3, u"Relación")
+        nb.AddPage(page4, u'Newton')
 
         # Putting the notebook in a sizer and defining it as the main one.
         sizer = wx.BoxSizer()
@@ -53,5 +55,5 @@ class MainApp(wx.App):
 
 
 if __name__ == "__main__":
-    app = MainApp()
+    app = MainApp(1, 'log')
     app.MainLoop()
