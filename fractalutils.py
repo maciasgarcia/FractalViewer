@@ -35,6 +35,10 @@ def inmandelbrot(func, c, iterat):
     return True
 
 
+def newtoniter(polyn, dpolyn, z):
+    return z - feval(polyn, z)/ feval(dpolyn, z)
+
+
 def quadratic(z, c):
     """Quadratic function to represent its julia associated fractal."""
     return z**2 + c
@@ -46,6 +50,11 @@ def cubic(z, c):
 
 def cubomenos1(z):
     return z**3 - 1
+
+
+def dcubomenos1(z):
+    return 3*z**2
+
 
 if __name__ == '__main__':
     pass
