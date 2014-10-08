@@ -16,6 +16,12 @@ def feval(mf0, *args):
     return eval(mf0)(*args)
 
 
+def turnintoarray(str):
+    nstr = str[1:-1]
+    array = nstr.split(',')
+    return [float(s) for s in array if is_number(s)]
+
+
 def numbercheck(numberlist):
         for numb in numberlist:
             if not is_number(numb):
@@ -35,8 +41,11 @@ def inmandelbrot(func, c, iterat):
     return True
 
 
-def newtoniter(polyn, dpolyn, z):
-    return z - feval(polyn, z)/ feval(dpolyn, z)
+def newtoniter(polyn, z):
+    num = polyn(z)
+    dnum = poly1d.deriv(polyn)
+    den = dnum(z)
+    return z - num/den
 
 
 def quadratic(z, c):
@@ -46,14 +55,6 @@ def quadratic(z, c):
 
 def cubic(z, c):
     return z**3 + c
-
-
-def cubomenos1(z):
-    return z**3 - 1
-
-
-def dcubomenos1(z):
-    return 3*z**2
 
 
 if __name__ == '__main__':
