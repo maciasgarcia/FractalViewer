@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from pylab import *
 from fractalutils import *
-import sympy as sp
-nu = sp.symbols('nu')
+
 
 class WxPythonUtil():
     def __init__(self):
@@ -55,6 +54,7 @@ class MandelbrotApi():
 
         return iters
 
+
 class NewtonApi():
     def __init__(self):
         self.xmin = -2
@@ -63,18 +63,21 @@ class NewtonApi():
         self.ymax = 2
         self.densidad = 500
         self.maxiter = 100
-        self.epsilon = 5e-5
+        self.epsilon = 5e-3
 
-    def newtonimage(self, polyn, dpolyn):
+    def newtonimage(self, polyn):
         xg, yg = meshgrid(linspace(self.xmin, self.xmax, self.densidad),
                           linspace(self.ymax, self.ymin, self.densidad))
 
         iters = zeros((self.densidad, self.densidad))
         z = xg + 1j*yg
+        polyrts  = polyn.r
 
         for n in xrange(self.maxiter):
-            indic = (abs(z) <= 10)
-            z[indic] = feval('newtoniter', polyn, dpolyn, z[indic])
+            zold = copy(z)
+            zold = newtoniter(polyn, zold)
+            indic = (abs(z - zold) >= self.epsilon)
+            z[indic] = newtoniter(polyn, z[indic])
             iters[indic] = n
 
         return iters
