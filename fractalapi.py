@@ -63,7 +63,7 @@ class NewtonApi():
         self.ymax = 2
         self.densidad = 500
         self.maxiter = 100
-        self.epsilon = 5e-3
+        self.epsilon = 0.05
 
     def newtonimage(self, polyn):
         xg, yg = meshgrid(linspace(self.xmin, self.xmax, self.densidad),
@@ -71,13 +71,14 @@ class NewtonApi():
 
         iters = zeros((self.densidad, self.densidad))
         z = xg + 1j*yg
-        polyrts  = polyn.r
+        #polyrts  = polyn.r
+        indic = (abs(z) >= 0)
+        zold = copy(z)
 
-        for n in xrange(self.maxiter):
-            zold = copy(z)
-            zold = newtoniter(polyn, zold)
+        for n in range(self.maxiter):
+            zold[indic] = newtoniter(polyn, z[indic])
             indic = (abs(z - zold) >= self.epsilon)
-            z[indic] = newtoniter(polyn, z[indic])
+            z[indic] = zold[indic]
             iters[indic] = n
 
         return iters
