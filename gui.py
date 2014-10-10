@@ -529,14 +529,14 @@ class MandelbrotPanel(wx.Panel):
         self.execute(self)
 
     def about(self, event):
-        descripcion = u"""Este programa permite la visualización del conjunto de Mandelbrot,
+        descripcion = u"""Este programa permite la visualización del fractal de Newton,
         pudiendo definirse nuevas funciones para visualizar dicho conjunto y usarse varias paletas
         de colores y distintos ajustes de visualización."""
         inform = wx.AboutDialogInfo()
         inform.SetIcon(wx.Icon('images/iconomand.png', wx.BITMAP_TYPE_PNG))
         inform.SetName('Conjunto de Mandelbrot')
         inform.SetDescription(descripcion)
-        inform.SetCopyright(u'Juan Antonio Macías - Marina Molina - Ana López')
+        inform.SetCopyright(u'Juan Antonio Macías')
         inform.SetWebSite('www.github.com/JuanMtg/JuliaSets')
 
         wx.AboutBox(inform)
