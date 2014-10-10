@@ -249,6 +249,7 @@ class JuliaPanel(wx.Panel):
             # Para anadir un color nuevo, escribirlo en self.listacolores y colocar otro elif con su corresp. codigo
             self.canvas.draw()
 
+
     def restore(self, event):
         self.boxmiter.SetValue('100')
         self.japi.maxiter = 100
@@ -911,7 +912,7 @@ class NewtonPanel(wx.Panel):
         labelymin = wx.StaticText(panelbut, -1, u'  Y Mínimo:')
         labelymax = wx.StaticText(panelbut, -1, u'  Y Máximo:')
         labeldens = wx.StaticText(panelbut, -1, u'  Densidad:')
-        labelfunc = wx.StaticText(panelbut, -1, u'  Función:')
+        labelfunc = wx.StaticText(panelbut, -1, u'  Polinomio:')
         labelcolp = wx.StaticText(panelbut, -1, u'  Paleta de colores:')
         labelextx = wx.StaticText(panelbut, -1, u'Para ampliar el conjunto hacer click derecho.')
         labelmagn = wx.StaticText(panelbut, -1, u'  Magnificación:')
@@ -1085,7 +1086,7 @@ class NewtonPanel(wx.Panel):
             self.colourcode = self.colourdict[self.paleta]
             self.k = 1 - self.invcolp.IsChecked()
 
-            self.ax.imshow(self.k + (-1)**self.k *log(iters), cmap=eval(self.colourcode),
+            self.ax.imshow(self.k + (-1)**self.k *iters, cmap=eval(self.colourcode),
                            extent=(self.Xmin, self.Xmax, self.Ymin, self.Ymax))
 
             # cmap permite cambiar la paleta de colores. http://wiki.scipy.org/Cookbook/Matplotlib/Show_colormaps
