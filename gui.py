@@ -1079,7 +1079,7 @@ class NewtonPanel(wx.Panel):
             dlg.Destroy()
 
         if er:
-            iters = self.napi.newtonimage2(self.func)
+            iters = self.napi.newtonimage(self.func)
             self.ax.cla()
 
             self.paleta = self.combcolp.GetValue()
