@@ -1072,7 +1072,6 @@ class NewtonPanel(wx.Panel):
 
         self.polyst = self.boxfunc.GetValue()
         self.func = sp.sympify(self.polyst)
-        #self.func = poly1d(turnintoarray(self.boxfunc.GetValue()))
 
         if (not er) or (self.polyst == ''):
             dlg = wx.MessageDialog(self, u"Error en los parámetros.", "Error!", wx.OK | wx.ICON_WARNING)
@@ -1080,7 +1079,6 @@ class NewtonPanel(wx.Panel):
             dlg.Destroy()
 
         if er:
-            #iters = self.napi.newtonimage(self.func)
             iters = self.napi.newtonimage2(self.func)
             self.ax.cla()
 

@@ -45,13 +45,7 @@ def inmandelbrot(func, c, iterat):
     return True
 
 
-def newtoniter(polyn, z):
-    num = polyn(z)
-    dnum = poly1d.deriv(polyn)
-    den = dnum(z)
-    return z - num/den
-
-def newtoniter2(expres, z):
+def newtoniter(expres, z):
     fnum = sp.lambdify(x, expres, modules='numpy')
     num = fnum(z)
     dnum = expres.diff(x)
