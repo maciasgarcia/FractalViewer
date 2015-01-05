@@ -924,7 +924,7 @@ class NewtonPanel(wx.Panel):
         self.boxymin = wx.TextCtrl(panelbut, -1, value=str(self.napi.ymin), size=(-1,-1))
         self.boxymax = wx.TextCtrl(panelbut, -1, value=str(self.napi.ymax), size=(-1,-1))
         self.boxdens = wx.TextCtrl(panelbut, -1, value=str(self.napi.densidad), size=(-1,-1))
-        self.boxfunc = wx.TextCtrl(panelbut, -1, value='[1,0,0,-1]',size=(-1,-1))
+        self.boxfunc = wx.TextCtrl(panelbut, -1, value=u'x**3 + 1',size=(-1,-1))
 
         self.colourdict = {'Azul/Amarillo/Rojo' : 'cm.RdYlBu', 'Blanco y negro' : 'cm.binary',
                            'Azules' : 'cm.Blues', 'Verde/Amarillo/Rojo' : 'cm.RdYlGn',
@@ -1071,7 +1071,8 @@ class NewtonPanel(wx.Panel):
                 er = False
 
         self.polyst = self.boxfunc.GetValue()
-        self.func = poly1d(turnintoarray(self.boxfunc.GetValue()))
+        self.func = sp.sympify(self.polyst)
+        #self.func = poly1d(turnintoarray(self.boxfunc.GetValue()))
 
         if (not er) or (self.polyst == ''):
             dlg = wx.MessageDialog(self, u"Error en los parámetros.", "Error!", wx.OK | wx.ICON_WARNING)
@@ -1079,7 +1080,8 @@ class NewtonPanel(wx.Panel):
             dlg.Destroy()
 
         if er:
-            iters = self.napi.newtonimage(self.func)
+            #iters = self.napi.newtonimage(self.func)
+            iters = self.napi.newtonimage2(self.func)
             self.ax.cla()
 
             self.paleta = self.combcolp.GetValue()

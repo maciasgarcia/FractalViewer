@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 from pylab import *
+import sympy as sp
+x, y= sp.symbols("x y")
 
 
 def is_number(s):
@@ -46,6 +48,14 @@ def newtoniter(polyn, z):
     num = polyn(z)
     dnum = poly1d.deriv(polyn)
     den = dnum(z)
+    return z - num/den
+
+def newtoniter2(expres, z):
+    fnum = sp.lambdify(x, expres)
+    num = fnum(z)
+    dnum = expres.diff(x)
+    fden = sp.lambdify(x, dnum)
+    den = fden(z)
     return z - num/den
 
 
