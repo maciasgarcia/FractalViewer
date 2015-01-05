@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 from pylab import *
+import sympy as sp
+x, y= sp.symbols("x y")
+
 
 
 def is_number(s):
@@ -42,10 +45,12 @@ def inmandelbrot(func, c, iterat):
     return True
 
 
-def newtoniter(polyn, z):
-    num = polyn(z)
-    dnum = poly1d.deriv(polyn)
-    den = dnum(z)
+def newtoniter(expres, z):
+    fnum = sp.lambdify(x, expres, modules='numpy')
+    num = fnum(z)
+    dnum = expres.diff(x)
+    fden = sp.lambdify(x, dnum, modules='numpy')
+    den = fden(z)
     return z - num/den
 
 
