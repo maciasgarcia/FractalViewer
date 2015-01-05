@@ -912,7 +912,7 @@ class NewtonPanel(wx.Panel):
         labelymin = wx.StaticText(panelbut, -1, u'  Y Mínimo:')
         labelymax = wx.StaticText(panelbut, -1, u'  Y Máximo:')
         labeldens = wx.StaticText(panelbut, -1, u'  Densidad:')
-        labelfunc = wx.StaticText(panelbut, -1, u'  Polinomio:')
+        labelfunc = wx.StaticText(panelbut, -1, u'  Función:')
         labelcolp = wx.StaticText(panelbut, -1, u'  Paleta de colores:')
         labelextx = wx.StaticText(panelbut, -1, u'Para ampliar el conjunto hacer click derecho.')
         labelmagn = wx.StaticText(panelbut, -1, u'  Magnificación:')
