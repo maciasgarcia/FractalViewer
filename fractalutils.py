@@ -5,6 +5,7 @@ import sympy as sp
 x, y= sp.symbols("x y")
 
 
+
 def is_number(s):
     try:
         float(s)
@@ -51,10 +52,10 @@ def newtoniter(polyn, z):
     return z - num/den
 
 def newtoniter2(expres, z):
-    fnum = sp.lambdify(x, expres)
+    fnum = sp.lambdify(x, expres, modules='numpy')
     num = fnum(z)
     dnum = expres.diff(x)
-    fden = sp.lambdify(x, dnum)
+    fden = sp.lambdify(x, dnum, modules='numpy')
     den = fden(z)
     return z - num/den
 
